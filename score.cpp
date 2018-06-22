@@ -20,6 +20,9 @@ int main()
   string line;
   getline(infile,line);
   int num=0;
+  double total=0;
+  int girl=0;
+  double girlaverage=0;
   while(getline(infile,line))
   {
      stringstream ss(line);
@@ -34,13 +37,43 @@ int main()
         if(student[num].score.length()==5)
         student[num].s=student[num].s+(student[num].score[4]-'0')*0.1;
      }
+     if(student[num].sex[1]=='F')
+     {
+        girlaverage+=student[num].s;
+        girl++;
+     }
+     total+=student[num].s;
      num++;
   }
-  int n=0;
-  while(n<num)
+  for(int i=0;i<num-1;i++)
   {
-     cout<<student[n].name<<" "<<student[n].sex<<" "<<student[n].s<<endl;
-     n++;
+    for(int j=0;j<num-i-1;j++)
+    {
+      if(student[j].s<student[j+1].s)
+      {
+         Student k= student[j];
+         student[j]=student[j+1];
+         student[j+1]=k;
+      }
+      else if(student[j].s==student[j+1].s)
+      {
+       if(student[j].name>student[j+1].name)
+       {
+         Student k= student[j];
+         student[j]=student[j+1];
+         student[j+1]=k;
+       }
+      }
+    }
   }
+  int n=0;
+  cout<<"The average of all the students: "<<total/num<<endl;
+  cout<<"The average of all the girls: "<<girlaverage/girl<<endl;
+  for(int i=0;i<num;i++)
+  cout<<student[i].name<<student[i].sex<<student[i].score<<endl;
   return 0;
 }
+
+
+
+
